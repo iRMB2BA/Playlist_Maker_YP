@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_color">#1A1B22</color>
+    <color name="textColorTheme">#FFFFFFFF</color>
+    <color name="arrowColor">@color/white</color>
+    <color name="colorShape_editText">#FFFFFF</color>
+    <color name="textColorHint">#1A1B22</color>
+    <color name="color_background">#1A1B22</color>
+</resources>

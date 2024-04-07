@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">Playlist Maker New Version</string>
+    <string name="app_name">Playlist Maker</string>
+    <string name="todo">TODO</string>
+    <string name="title_text">Playlist maker</string>
+    <string name="search_btn_text">Поиск</string>
+    <string name="media_btn_text">Медиатека</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_dark_theme">Темная тема</string>
+    <string name="sharing_settings_text">Поделиться приложением</string>
+    <string name="help_settings_text">Написать в поддержку</string>
+    <string name="agreement_settings_text">Пользовательское соглашение</string>
+    <string name="sharingMessage">https://practicum.yandex.ru/android-developer/</string>
+    <string name="agreementUrl">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="sendHelpMail">irombaba@gmai.com</string>
+    <string name="sendHelpThemeMessage">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="sendHelpMessage">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="search_textView">Поиск</string>
 </resources>

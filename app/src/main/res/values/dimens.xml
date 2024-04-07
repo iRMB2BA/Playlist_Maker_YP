@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <dimen name="button_cornerRadius">16dp</dimen>
+    <dimen name="button_textSize">22sp</dimen>
+    <dimen name="button_marginBottom">10dp</dimen>
+    <dimen name="settings_textSize">16sp</dimen>
+</resources>

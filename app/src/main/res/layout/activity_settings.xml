@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/button_arrowBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/arrow"
+            app:tint="@color/arrowColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/ys_display_medium"
+            android:text="@string/settings_title"
+            android:textColor="@color/textColorTheme"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp">
+
+        <TextView
+            style="@style/settings_menuTextView"
+            android:text="@string/settings_dark_theme" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:theme="@style/MySwitch" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp">
+
+        <TextView
+            android:id="@+id/sharing_textView"
+            style="@style/settings_menuTextView"
+            android:text="@string/sharing_settings_text" />
+
+        <ImageView
+            style="@style/settings_menuImageView"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/share" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp">
+
+        <TextView
+            android:id="@+id/sendHelp_textView"
+            style="@style/settings_menuTextView"
+            android:text="@string/help_settings_text" />
+
+        <ImageView
+            style="@style/settings_menuImageView"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/support" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/agreement_textView"
+            style="@style/settings_menuTextView"
+            android:text="@string/agreement_settings_text" />
+
+        <ImageView
+            style="@style/settings_menuImageView"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/forward" />
+
+    </FrameLayout>
+
+</LinearLayout>
