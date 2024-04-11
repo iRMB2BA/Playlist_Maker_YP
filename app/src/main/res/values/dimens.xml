@@ -4,4 +4,6 @@
     <dimen name="button_textSize">22sp</dimen>
     <dimen name="button_marginBottom">10dp</dimen>
     <dimen name="settings_textSize">16sp</dimen>
+    <dimen name="padding_liner_card">8dp</dimen>
+    <dimen name="margin_liner_card">8dp</dimen>
 </resources>

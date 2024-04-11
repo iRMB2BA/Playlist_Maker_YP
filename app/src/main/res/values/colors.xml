@@ -9,4 +9,5 @@
     <color name="colorShape_editText">#E6E8EB</color>
     <color name="textColorHint">#AEAFB4</color>
     <color name="color_background">#FFFFFFFF</color>
+    <color name="grayDark">#AEAFB4</color>
 </resources>
