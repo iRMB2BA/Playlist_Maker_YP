@@ -15,7 +15,6 @@
     <string name="sendHelpThemeMessage">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="sendHelpMessage">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="search_textView">Поиск</string>
-    <string name="no_reply">No Reply</string>
     <string name="the_beatles">The Beatles</string>
     <string name="_5_12">5:12</string>
 </resources>
