@@ -17,4 +17,9 @@
     <string name="search_textView">Поиск</string>
     <string name="the_beatles">The Beatles</string>
     <string name="_5_12">5:12</string>
+    <string name="placeholderNothing_text">Ничего не нашлось</string>
+    <string name="placeholderErrorNetwork_text">Проблемы со связью</string>
+    <string name="placeholderErrorNetwork_text2">Загрузка не удалась. Проверьте</string>
+    <string name="placeholderErrorNetwork_text3">подключение к интернету</string>
+    <string name="button_placeholderErrorNetwork">Обновить</string>
 </resources>
