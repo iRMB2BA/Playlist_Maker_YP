@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -34,6 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var placeHolderNothingFound: LinearLayout
     private lateinit var placeholderErrorNetwork: LinearLayout
+    private lateinit var buttonPlaceholder: Button
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -46,11 +48,14 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
         buttonBack = findViewById(R.id.button_arrowBack_search)
         buttonClear = findViewById(R.id.clearIcon)
         inputEditText = findViewById(R.id.inputEditText)
         placeHolderNothingFound = findViewById(R.id.placeholderNothingFound)
         placeholderErrorNetwork = findViewById(R.id.placeholderErrorNetwork)
+        buttonPlaceholder = findViewById(R.id.button_placeholder)
 
         inputEditText.setText(saveText)
 
@@ -67,6 +72,7 @@ class SearchActivity : AppCompatActivity() {
             placeholderErrorNetwork.visibility = View.GONE
 
         }
+
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -108,24 +114,51 @@ class SearchActivity : AppCompatActivity() {
                                     arrayTracks.addAll(response.body()?.results!!)
                                     tracksAdapter.notifyDataSetChanged()
                                 } else {
-                                    arrayTracks.clear()
-                                    tracksAdapter.notifyDataSetChanged()
-                                    placeHolderNothingFound.visibility = View.VISIBLE
+                                    showPlaceholderNothingFound()
                                 }
                             } else {
-                                placeholderErrorNetwork.visibility = View.VISIBLE
+                                showPlaceholderErrorNetwork()
                             }
                         }
 
                         override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                            placeholderErrorNetwork.visibility = View.VISIBLE
+                            showPlaceholderErrorNetwork()
                         }
                     })
                 }
             }
             false
         }
+
+        buttonPlaceholder.setOnClickListener {
+
+            itunesService.search(inputEditText.text.toString()).enqueue(object :
+                Callback<TracksResponse> {
+                override fun onResponse(
+                    call: Call<TracksResponse>,
+                    response: Response<TracksResponse>
+                ) {
+                    if (response.code() == 200) {
+                        placeholderErrorNetwork.visibility = View.GONE
+                        arrayTracks.clear()
+                        if (response.body()?.results?.isNotEmpty() == true) {
+                            arrayTracks.addAll(response.body()?.results!!)
+                            tracksAdapter.notifyDataSetChanged()
+                        } else {
+                            showPlaceholderNothingFound()
+                        }
+                    } else {
+                        showPlaceholderErrorNetwork()
+                    }
+                }
+
+                override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
+                    showPlaceholderErrorNetwork()
+                }
+            })
+        }
     }
+
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
@@ -155,6 +188,19 @@ class SearchActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         saveText = savedInstanceState.getString(INPUT_AMOUNT, AMOUNT_DEF)
     }
+
+    private fun showPlaceholderNothingFound() {
+        placeHolderNothingFound.visibility = View.VISIBLE
+        arrayTracks.clear()
+        tracksAdapter.notifyDataSetChanged()
+    }
+
+    private fun showPlaceholderErrorNetwork() {
+        placeholderErrorNetwork.visibility = View.VISIBLE
+        arrayTracks.clear()
+        tracksAdapter.notifyDataSetChanged()
+    }
+
 
     companion object {
         const val INPUT_AMOUNT = "PRODUCT_AMOUNT"
