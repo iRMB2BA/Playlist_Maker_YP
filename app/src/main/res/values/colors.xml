@@ -10,4 +10,5 @@
     <color name="textColorHint">#AEAFB4</color>
     <color name="color_background">#FFFFFFFF</color>
     <color name="grayDark">#AEAFB4</color>
+    <color name="color_placeholder">#1A1B22</color>
 </resources>

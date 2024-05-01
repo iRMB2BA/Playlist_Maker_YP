@@ -6,4 +6,5 @@
     <color name="colorShape_editText">#FFFFFF</color>
     <color name="textColorHint">#1A1B22</color>
     <color name="color_background">#1A1B22</color>
+    <color name="color_placeholder">#FFFFFF</color>
 </resources>
