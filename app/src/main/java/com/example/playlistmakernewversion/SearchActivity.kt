@@ -48,8 +48,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-
         buttonBack = findViewById(R.id.button_arrowBack_search)
         buttonClear = findViewById(R.id.clearIcon)
         inputEditText = findViewById(R.id.inputEditText)
@@ -87,6 +85,7 @@ class SearchActivity : AppCompatActivity() {
                 saveText = s.toString()
             }
         }
+
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
         recyclerView = findViewById(R.id.recyclerView)
@@ -99,63 +98,13 @@ class SearchActivity : AppCompatActivity() {
 
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (inputEditText.text.isNotEmpty()) {
-                    placeHolderNothingFound.visibility = View.GONE
-                    placeholderErrorNetwork.visibility = View.GONE
-                    itunesService.search(inputEditText.text.toString()).enqueue(object :
-                        Callback<TracksResponse> {
-                        override fun onResponse(
-                            call: Call<TracksResponse>,
-                            response: Response<TracksResponse>
-                        ) {
-                            if (response.code() == 200) {
-                                arrayTracks.clear()
-                                if (response.body()?.results?.isNotEmpty() == true) {
-                                    arrayTracks.addAll(response.body()?.results!!)
-                                    tracksAdapter.notifyDataSetChanged()
-                                } else {
-                                    showPlaceholderNothingFound()
-                                }
-                            } else {
-                                showPlaceholderErrorNetwork()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                            showPlaceholderErrorNetwork()
-                        }
-                    })
-                }
+                search(inputEditText.text.toString())
             }
             false
         }
 
         buttonPlaceholder.setOnClickListener {
-
-            itunesService.search(inputEditText.text.toString()).enqueue(object :
-                Callback<TracksResponse> {
-                override fun onResponse(
-                    call: Call<TracksResponse>,
-                    response: Response<TracksResponse>
-                ) {
-                    if (response.code() == 200) {
-                        placeholderErrorNetwork.visibility = View.GONE
-                        arrayTracks.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            arrayTracks.addAll(response.body()?.results!!)
-                            tracksAdapter.notifyDataSetChanged()
-                        } else {
-                            showPlaceholderNothingFound()
-                        }
-                    } else {
-                        showPlaceholderErrorNetwork()
-                    }
-                }
-
-                override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                    showPlaceholderErrorNetwork()
-                }
-            })
+            search(inputEditText.text.toString())
         }
     }
 
@@ -199,6 +148,40 @@ class SearchActivity : AppCompatActivity() {
         placeholderErrorNetwork.visibility = View.VISIBLE
         arrayTracks.clear()
         tracksAdapter.notifyDataSetChanged()
+    }
+
+    private fun search(inputText: String) {
+        if (inputText.isNotEmpty()) {
+            placeHolderNothingFound.visibility = View.GONE
+            placeholderErrorNetwork.visibility = View.GONE
+            itunesService.search(inputText).enqueue(object :
+                Callback<TracksResponse> {
+                override fun onResponse(
+                    call: Call<TracksResponse>,
+                    response: Response<TracksResponse>
+
+                ) {
+                    val newResponse = response.body()?.results
+                    if (response.isSuccessful) {
+                        arrayTracks.clear()
+                        if (newResponse != null) {
+                            if (newResponse.isNotEmpty()) {
+                                arrayTracks.addAll(response.body()?.results!!)
+                                tracksAdapter.notifyDataSetChanged()
+                            } else {
+                                showPlaceholderNothingFound()
+                            }
+                        }
+                    } else {
+                        showPlaceholderErrorNetwork()
+                    }
+                }
+
+                override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
+                    showPlaceholderErrorNetwork()
+                }
+            })
+        }
     }
 
 
