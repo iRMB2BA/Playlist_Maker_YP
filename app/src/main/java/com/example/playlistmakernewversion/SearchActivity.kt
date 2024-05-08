@@ -13,7 +13,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +27,7 @@ private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListene
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
     private val baseUrl = "https://itunes.apple.com"
+    private var trackPosition = -1
 
     var saveText = ""
     private val arrayTracks = mutableListOf<Track>()
@@ -136,16 +136,16 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             search(inputEditText.text.toString())
         }
 
-        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
 
-                if (hasFocus && inputEditText.text.isEmpty()) {
-                    searchHistoryLayout.visibility = View.VISIBLE
-                    arrayTracksHistory.clear()
-                    arrayTracksHistory.addAll(searchHistory.getList())
-                    tracksAdapterHistory.notifyDataSetChanged()
-                } else {
-                    searchHistoryLayout.visibility = View.GONE
-                }
+            if (hasFocus && inputEditText.text.isEmpty()) {
+                searchHistoryLayout.visibility = View.VISIBLE
+                arrayTracksHistory.clear()
+                arrayTracksHistory.addAll(searchHistory.getList())
+                tracksAdapterHistory.notifyDataSetChanged()
+            } else {
+                searchHistoryLayout.visibility = View.GONE
+            }
         }
 
 
@@ -153,7 +153,11 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             if (key == "TRACK_LIST_SEARCH_KEY") {
                 arrayTracksHistory.clear()
                 arrayTracksHistory.addAll(searchHistory.getList())
-                tracksAdapterHistory.notifyDataSetChanged()
+                if (trackPosition == -1) {
+                    tracksAdapterHistory.notifyDataSetChanged()
+                } else {
+                    tracksAdapterHistory.notifyItemMoved(trackPosition, 0)
+                }
             }
         }
 
@@ -252,7 +256,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     }
 
     override fun onClick(track: Track) {
-        searchHistory.addTrek(track)
+        trackPosition = searchHistory.addTrek(track)
+        recyclerViewHistory.scrollToPosition(0)
     }
 }
 

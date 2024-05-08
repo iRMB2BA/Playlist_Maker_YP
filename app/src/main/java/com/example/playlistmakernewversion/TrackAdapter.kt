@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private val songs: List<Track>, val listener: Listener) : RecyclerView.Adapter<TrackViewHolder>() {
+class TrackAdapter(private val songs: List<Track>, private val listener: Listener) :
+    RecyclerView.Adapter<TrackViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.track_view_card, parent, false)
@@ -17,7 +18,7 @@ class TrackAdapter(private val songs: List<Track>, val listener: Listener) : Rec
 
     override fun getItemCount() = songs.size
 
-    interface Listener{
+    interface Listener {
         fun onClick(track: Track)
     }
 }
