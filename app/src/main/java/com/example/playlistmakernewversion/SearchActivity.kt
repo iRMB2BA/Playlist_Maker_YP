@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -27,7 +28,6 @@ private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListene
 class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
     private val baseUrl = "https://itunes.apple.com"
-    private var trackPosition = -1
 
     var saveText = ""
     private val arrayTracks = mutableListOf<Track>()
@@ -101,8 +101,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             placeHolderNothingFound.visibility = View.GONE
             placeholderErrorNetwork.visibility = View.GONE
             recyclerView.visibility = View.GONE
+            searchHistoryLayout.visibility = if (searchHistory.getList().isEmpty())
+                View.GONE else View.VISIBLE
         }
-
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -138,7 +139,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
         inputEditText.setOnFocusChangeListener { _, hasFocus ->
 
-            if (hasFocus && inputEditText.text.isEmpty()) {
+            if (hasFocus && inputEditText.text.isEmpty() && searchHistory.getList().isNotEmpty()) {
                 searchHistoryLayout.visibility = View.VISIBLE
                 arrayTracksHistory.clear()
                 arrayTracksHistory.addAll(searchHistory.getList())
@@ -150,14 +151,10 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
 
         listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == "TRACK_LIST_SEARCH_KEY") {
+            if (key == SEARCH_HISTORY_KEY) {
                 arrayTracksHistory.clear()
                 arrayTracksHistory.addAll(searchHistory.getList())
-                if (trackPosition == -1) {
-                    tracksAdapterHistory.notifyDataSetChanged()
-                } else {
-                    tracksAdapterHistory.notifyItemMoved(trackPosition, 0)
-                }
+                tracksAdapterHistory.notifyDataSetChanged()
             }
         }
 
@@ -167,8 +164,8 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             arrayTracksHistory.clear()
             searchHistory.clear()
             tracksAdapterHistory.notifyDataSetChanged()
+            searchHistoryLayout.visibility = View.GONE
         }
-
     }
 
 
@@ -256,7 +253,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     }
 
     override fun onClick(track: Track) {
-        trackPosition = searchHistory.addTrek(track)
+        searchHistory.addTrek(track)
         recyclerViewHistory.scrollToPosition(0)
     }
 }

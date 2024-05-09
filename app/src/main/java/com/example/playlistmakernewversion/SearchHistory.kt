@@ -4,63 +4,47 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 
+const val SEARCH_HISTORY_KEY = "TRACK_LIST_SEARCH_KEY"
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
-    fun addTrek(track: Track): Int {
-        var trackList = getList().toMutableList()
+    fun addTrek(track: Track) {
+        val trackList = getList().toMutableList()
         var indexTrack = -1
-        var change = false
+        var isReplay = false
 
         trackList.forEachIndexed { index, t ->
             if (t.trackId == track.trackId) {
                 indexTrack = index
-                change = true
-                Log.i("bag", indexTrack.toString())
+                isReplay = true
             }
         }
 
-        if (change) {
-            val array = mutableListOf<Track>()
-            array.add(track)
+        if (isReplay) {
             trackList.removeAt(indexTrack)
-            array.addAll(trackList)
-            trackList = array
+            trackList.add(0, track)
         } else {
-            if (trackList.size > 10) {
+            if (trackList.size >= 10) {
+                trackList.add(0, track)
                 trackList.removeLast()
-                val array = mutableListOf<Track>()
-                array.add(track)
-                array.addAll(trackList)
-                trackList = array
             } else {
-                trackList.add(track)
+                trackList.add(0, track)
             }
         }
 
-        val json = Gson().toJson(trackList)
         sharedPreferences.edit()
-            .putString("TRACK_LIST_SEARCH_KEY", json)
+            .putString(SEARCH_HISTORY_KEY, Gson().toJson(trackList))
             .apply()
-
-        return indexTrack
     }
 
     fun getList(): Array<Track> {
-        val json = sharedPreferences.getString("TRACK_LIST_SEARCH_KEY", null)
-        return if (json != null) {
-            Gson().fromJson(json, Array<Track>::class.java)
-        } else {
-            emptyArray()
-        }
+        val json = sharedPreferences.getString(SEARCH_HISTORY_KEY, null)
+        return Gson().fromJson(json, Array<Track>::class.java) ?: emptyArray()
     }
 
     fun clear() {
-        val trackList = getList().toMutableList()
-        trackList.clear()
-        val json = Gson().toJson(trackList)
         sharedPreferences.edit()
-            .putString("TRACK_LIST_SEARCH_KEY", json)
+            .putString(SEARCH_HISTORY_KEY, Gson().toJson(mutableListOf<Track>()))
             .apply()
     }
 
