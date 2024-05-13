@@ -3,6 +3,7 @@ package com.example.playlistmakernewversion
 import android.icu.text.SimpleDateFormat
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,20 +13,12 @@ import java.util.Locale
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private val trackImage: ImageView = itemView.findViewById(R.id.trackImageView)
+    private val trackName: TextView = itemView.findViewById(R.id.trackNameView)
+    private val artistName: TextView = itemView.findViewById(R.id.artistNameView)
+    private val trackTime: TextView = itemView.findViewById(R.id.trackTimeView)
 
-    private val trackImage: ImageView
-    private val trackName: TextView
-    private val artistName: TextView
-    private val trackTime: TextView
-
-    init {
-        trackImage = itemView.findViewById(R.id.trackImageView)
-        trackName = itemView.findViewById(R.id.trackNameView)
-        artistName = itemView.findViewById(R.id.artistNameView)
-        trackTime = itemView.findViewById(R.id.trackTimeView)
-    }
-
-    fun bind(model: Track) {
+    fun bind(model: Track, listener: TrackAdapter.Listener) {
 
         Glide.with(itemView)
             .load(model.artworkUrl100)
@@ -37,7 +30,9 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         trackName.text = model.trackName
         artistName.text = model.artistName
         trackTime.text = dateFormat.format(model.trackTimeMillis)
+
+        itemView.setOnClickListener {
+            listener.onClick(model)
+        }
     }
-
-
 }

@@ -22,4 +22,6 @@
     <string name="placeholderErrorNetwork_text2">Загрузка не удалась. Проверьте</string>
     <string name="placeholderErrorNetwork_text3">подключение к интернету</string>
     <string name="button_placeholderErrorNetwork">Обновить</string>
+    <string name="titleText_historySearch">Вы искали</string>
+    <string name="ButtonClearHistory_text">Очистить историю</string>
 </resources>

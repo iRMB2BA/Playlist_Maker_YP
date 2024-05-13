@@ -2,9 +2,11 @@ package com.example.playlistmakernewversion
 
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -21,14 +23,19 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity() {
+private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
+
+class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
 
     private val baseUrl = "https://itunes.apple.com"
 
     var saveText = ""
     private val arrayTracks = mutableListOf<Track>()
-    private val tracksAdapter = TrackAdapter(arrayTracks)
+    private val arrayTracksHistory = mutableListOf<Track>()
+    private val tracksAdapter = TrackAdapter(arrayTracks, this)
+    private val tracksAdapterHistory = TrackAdapter(arrayTracksHistory, this)
 
+    private lateinit var searchHistory: SearchHistory
     private lateinit var buttonBack: ImageView
     private lateinit var buttonClear: ImageView
     private lateinit var inputEditText: EditText
@@ -36,6 +43,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeHolderNothingFound: LinearLayout
     private lateinit var placeholderErrorNetwork: LinearLayout
     private lateinit var buttonPlaceholder: Button
+    private lateinit var searchHistoryLayout: LinearLayout
+    private lateinit var recyclerViewHistory: RecyclerView
+    private lateinit var clearHistoryButton: Button
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -48,12 +58,34 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        val sharedPreferences = getSharedPreferences(KEY_SEARCH_PREF, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPreferences)
+
         buttonBack = findViewById(R.id.button_arrowBack_search)
         buttonClear = findViewById(R.id.clearIcon)
         inputEditText = findViewById(R.id.inputEditText)
         placeHolderNothingFound = findViewById(R.id.placeholderNothingFound)
         placeholderErrorNetwork = findViewById(R.id.placeholderErrorNetwork)
         buttonPlaceholder = findViewById(R.id.button_placeholder)
+        searchHistoryLayout = findViewById(R.id.searchHistory_layout)
+        recyclerView = findViewById(R.id.recyclerViewTracks)
+        recyclerViewHistory = findViewById((R.id.recyclerViewHistory))
+        clearHistoryButton = findViewById(R.id.buttonClearHistory)
+
+        recyclerView.adapter = tracksAdapter
+        recyclerView.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
+        recyclerViewHistory.adapter = tracksAdapterHistory
+        recyclerViewHistory.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+
 
         inputEditText.setText(saveText)
 
@@ -68,9 +100,10 @@ class SearchActivity : AppCompatActivity() {
             tracksAdapter.notifyDataSetChanged()
             placeHolderNothingFound.visibility = View.GONE
             placeholderErrorNetwork.visibility = View.GONE
-
+            recyclerView.visibility = View.GONE
+            searchHistoryLayout.visibility = if (searchHistory.getList().isEmpty())
+                View.GONE else View.VISIBLE
         }
-
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -79,6 +112,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 buttonClear.visibility = clearButtonVisibility(s)
+                searchHistoryLayout.visibility =
+                    if (inputEditText.hasFocus() && s?.isEmpty() == true && searchHistory.getList().isNotEmpty()) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -88,13 +123,8 @@ class SearchActivity : AppCompatActivity() {
 
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.adapter = tracksAdapter
-        recyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+
+
 
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -105,6 +135,36 @@ class SearchActivity : AppCompatActivity() {
 
         buttonPlaceholder.setOnClickListener {
             search(inputEditText.text.toString())
+        }
+
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+
+            if (hasFocus && inputEditText.text.isEmpty() && searchHistory.getList().isNotEmpty()) {
+                searchHistoryLayout.visibility = View.VISIBLE
+                arrayTracksHistory.clear()
+                arrayTracksHistory.addAll(searchHistory.getList())
+                tracksAdapterHistory.notifyDataSetChanged()
+            } else {
+                searchHistoryLayout.visibility = View.GONE
+            }
+        }
+
+
+        listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == SEARCH_HISTORY_KEY) {
+                arrayTracksHistory.clear()
+                arrayTracksHistory.addAll(searchHistory.getList())
+                tracksAdapterHistory.notifyDataSetChanged()
+            }
+        }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+
+        clearHistoryButton.setOnClickListener {
+            arrayTracksHistory.clear()
+            searchHistory.clear()
+            tracksAdapterHistory.notifyDataSetChanged()
+            searchHistoryLayout.visibility = View.GONE
         }
     }
 
@@ -154,6 +214,7 @@ class SearchActivity : AppCompatActivity() {
         if (inputText.isNotEmpty()) {
             placeHolderNothingFound.visibility = View.GONE
             placeholderErrorNetwork.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
             itunesService.search(inputText).enqueue(object :
                 Callback<TracksResponse> {
                 override fun onResponse(
@@ -188,6 +249,12 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val INPUT_AMOUNT = "PRODUCT_AMOUNT"
         const val AMOUNT_DEF = ""
+        private const val KEY_SEARCH_PREF = "KEY_SEARCH_PREF"
+    }
+
+    override fun onClick(track: Track) {
+        searchHistory.addTrek(track)
+        recyclerViewHistory.scrollToPosition(0)
     }
 }
 
