@@ -113,7 +113,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 buttonClear.visibility = clearButtonVisibility(s)
                 searchHistoryLayout.visibility =
-                    if (inputEditText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+                    if (inputEditText.hasFocus() && s?.isEmpty() == true && searchHistory.getList().isNotEmpty()) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -249,7 +249,7 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
     companion object {
         const val INPUT_AMOUNT = "PRODUCT_AMOUNT"
         const val AMOUNT_DEF = ""
-        const val KEY_SEARCH_PREF = "KEY_SEARCH_PREF"
+        private const val KEY_SEARCH_PREF = "KEY_SEARCH_PREF"
     }
 
     override fun onClick(track: Track) {

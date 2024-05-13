@@ -24,7 +24,7 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
             trackList.removeAt(indexTrack)
             trackList.add(0, track)
         } else {
-            if (trackList.size >= 10) {
+            if (trackList.size >= MAX_HISTORY_SIZE) {
                 trackList.add(0, track)
                 trackList.removeLast()
             } else {
@@ -46,6 +46,10 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit()
             .putString(SEARCH_HISTORY_KEY, Gson().toJson(mutableListOf<Track>()))
             .apply()
+    }
+
+    companion object {
+        const val MAX_HISTORY_SIZE = 10
     }
 
 }
