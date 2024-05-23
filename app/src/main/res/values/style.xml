@@ -34,6 +34,7 @@
 
     <style name="MySwitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/switch_colorActivated</item>
+        <item name="android:checked">false</item>
     </style>
 
     <style name="trackCard">
@@ -81,6 +82,30 @@
         <item name="fontFamily">@font/ys_display_medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/color_background</item>
+    </style>
+
+    <style name="customToolbar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="h3theme">
+        <item name="android:textColor">@color/color_placeholder</item>
+    </style>
+
+    <style name="iconprimary">
+        <item name="tint">@color/color_placeholder</item>
+    </style>
+
+    <style name="p4">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/grayDark</item>
+    </style>
+
+    <style name="p4.theme">
+        <item name="android:textColor">@color/color_placeholder</item>
     </style>
 
 </resources>

@@ -6,4 +6,5 @@
     <dimen name="settings_textSize">16sp</dimen>
     <dimen name="padding_liner_card">8dp</dimen>
     <dimen name="margin_liner_card">8dp</dimen>
+    <dimen name="primaryMarginPaddingSize">16dp</dimen>
 </resources>

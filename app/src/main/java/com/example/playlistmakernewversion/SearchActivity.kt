@@ -2,6 +2,7 @@ package com.example.playlistmakernewversion
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +18,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,15 +27,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
 
-class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
+class SearchActivity : AppCompatActivity() {
 
     private val baseUrl = "https://itunes.apple.com"
 
     var saveText = ""
     private val arrayTracks = mutableListOf<Track>()
     private val arrayTracksHistory = mutableListOf<Track>()
-    private val tracksAdapter = TrackAdapter(arrayTracks, this)
-    private val tracksAdapterHistory = TrackAdapter(arrayTracksHistory, this)
+    private val tracksAdapter = TrackAdapter(arrayTracks)
+    private val tracksAdapterHistory = TrackAdapter(arrayTracksHistory)
 
     private lateinit var searchHistory: SearchHistory
     private lateinit var buttonBack: ImageView
@@ -113,7 +115,9 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 buttonClear.visibility = clearButtonVisibility(s)
                 searchHistoryLayout.visibility =
-                    if (inputEditText.hasFocus() && s?.isEmpty() == true && searchHistory.getList().isNotEmpty()) View.VISIBLE else View.GONE
+                    if (inputEditText.hasFocus() && s?.isEmpty() == true && searchHistory.getList()
+                            .isNotEmpty()
+                    ) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -165,6 +169,17 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
             searchHistory.clear()
             tracksAdapterHistory.notifyDataSetChanged()
             searchHistoryLayout.visibility = View.GONE
+        }
+
+        tracksAdapter.onItemClick = {
+            searchHistory.addTrek(it)
+            showTrack(it)
+
+        }
+
+        tracksAdapterHistory.onItemClick = {
+            searchHistory.addTrek(it)
+            showTrack(it)
         }
     }
 
@@ -245,16 +260,20 @@ class SearchActivity : AppCompatActivity(), TrackAdapter.Listener {
         }
     }
 
+    fun showTrack(track: Track) {
+        startActivity(
+            Intent(this, TrackActivity::class.java).putExtra(
+                "track",
+                Gson().toJson(track)
+            )
+        )
+    }
+
 
     companion object {
         const val INPUT_AMOUNT = "PRODUCT_AMOUNT"
         const val AMOUNT_DEF = ""
         private const val KEY_SEARCH_PREF = "KEY_SEARCH_PREF"
-    }
-
-    override fun onClick(track: Track) {
-        searchHistory.addTrek(track)
-        recyclerViewHistory.scrollToPosition(0)
     }
 }
 

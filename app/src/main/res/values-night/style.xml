@@ -55,4 +55,21 @@
         <item name="tint">@color/white</item>
     </style>
 
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/switch_colorActivated</item>
+        <item name="android:checked">true</item>
+    </style>
+
+    <style name="h3theme">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="iconprimary">
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="p4.theme">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
