@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -158,7 +157,6 @@ class SearchActivity : AppCompatActivity() {
             if (key == SEARCH_HISTORY_KEY) {
                 arrayTracksHistory.clear()
                 arrayTracksHistory.addAll(searchHistory.getList())
-                tracksAdapterHistory.notifyDataSetChanged()
             }
         }
 
@@ -172,15 +170,19 @@ class SearchActivity : AppCompatActivity() {
         }
 
         tracksAdapter.onItemClick = {
-            searchHistory.addTrek(it)
             showTrack(it)
-
+            searchHistory.addTrek(it)
         }
 
         tracksAdapterHistory.onItemClick = {
-            searchHistory.addTrek(it)
             showTrack(it)
+            searchHistory.addTrek(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tracksAdapterHistory.notifyDataSetChanged()
     }
 
 
@@ -262,7 +264,7 @@ class SearchActivity : AppCompatActivity() {
 
     fun showTrack(track: Track) {
         startActivity(
-            Intent(this, TrackActivity::class.java).putExtra(
+            Intent(this, PlayerActivity::class.java).putExtra(
                 "track",
                 Gson().toJson(track)
             )

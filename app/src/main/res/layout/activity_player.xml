@@ -1,17 +1,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="42dp">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glLeft24"
+            android:id="@+id/guideLineLeft24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glRight24"
+            android:id="@+id/guideLineRight24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -27,7 +27,7 @@
             app:layout_constraintStart_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glLeft16"
+            android:id="@+id/guideLineLeft16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glRight16"
+            android:id="@+id/guideLineRight16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -53,47 +53,49 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivTrackCover"
+            android:id="@+id/TrackCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="28dp"
+            android:contentDescription="@string/todo"
             android:src="@drawable/placeholder"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/glRight24"
-            app:layout_constraintStart_toStartOf="@+id/glLeft24"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight24"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft24"
             app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
         <TextView
-            android:id="@+id/tvTrackTitle"
-            style="@style/h3theme"
+            android:id="@+id/tViewTrackTitle"
+            style="@style/htheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Yesterday (Remastered 2009)"
-            app:layout_constraintEnd_toStartOf="@+id/glRight24"
-            app:layout_constraintStart_toStartOf="@+id/glLeft24"
-            app:layout_constraintTop_toBottomOf="@+id/ivTrackCover" />
+            tool:text="Yesterday (Remastered 2009)"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight24"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft24"
+            app:layout_constraintTop_toBottomOf="@+id/TrackCover" />
 
         <TextView
-            android:id="@+id/tvArtistName"
-            style="@style/h3theme"
+            android:id="@+id/tViewArtistName"
+            style="@style/htheme"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="The Beatles"
-            app:layout_constraintEnd_toStartOf="@+id/glRight24"
-            app:layout_constraintStart_toStartOf="@+id/glLeft24"
-            app:layout_constraintTop_toBottomOf="@+id/tvTrackTitle" />
+            tool:text="The Beatles"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight24"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft24"
+            app:layout_constraintTop_toBottomOf="@+id/tViewTrackTitle" />
 
         <ImageView
             android:id="@+id/btnAddLibrary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
             android:src="@drawable/ic_add_library"
             app:layout_constraintBottom_toBottomOf="@+id/btnPlayStop"
             app:layout_constraintEnd_toStartOf="@id/btnPlayStop"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="@+id/glLeft24"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft24"
             app:layout_constraintTop_toTopOf="@+id/btnPlayStop" />
 
         <ImageView
@@ -102,152 +104,154 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
+            android:contentDescription="@string/todo"
             android:src="@drawable/ic_play"
             app:layout_constraintEnd_toStartOf="@+id/btnLike"
             app:layout_constraintStart_toEndOf="@id/btnAddLibrary"
-            app:layout_constraintTop_toBottomOf="@+id/tvArtistName" />
+            app:layout_constraintTop_toBottomOf="@+id/tViewArtistName" />
 
         <ImageView
             android:id="@+id/btnLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
             android:src="@drawable/ic_like"
             app:layout_constraintBottom_toBottomOf="@+id/btnPlayStop"
-            app:layout_constraintEnd_toStartOf="@id/glRight24"
+            app:layout_constraintEnd_toStartOf="@id/guideLineRight24"
             app:layout_constraintStart_toEndOf="@id/btnPlayStop"
             app:layout_constraintTop_toTopOf="@+id/btnPlayStop" />
 
         <TextView
-            android:id="@+id/tvTrackDuration"
-            style="@style/h3theme"
+            android:id="@+id/tViewDuration"
+            style="@style/htheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="2:55"
+            tool:text="2:55"
             android:textFontWeight="500"
             app:layout_constraintEnd_toEndOf="@+id/btnPlayStop"
             app:layout_constraintStart_toStartOf="@+id/btnPlayStop"
             app:layout_constraintTop_toBottomOf="@+id/btnPlayStop" />
 
         <TextView
-            android:id="@+id/tvTrackDurationText"
-            style="@style/p4"
+            android:id="@+id/tViewTrackDurationText"
+            style="@style/pstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/Duration"
-            app:layout_constraintStart_toStartOf="@+id/glLeft16"
-            app:layout_constraintTop_toBottomOf="@id/tvTrackDuration" />
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft16"
+            app:layout_constraintTop_toBottomOf="@id/tViewDuration" />
 
         <TextView
-            android:id="@+id/tvTrackAlbumText"
-            style="@style/p4"
+            android:id="@+id/tViewTrackAlbumText"
+            style="@style/pstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/primaryMarginPaddingSize"
-            android:text="Альбом"
-            app:layout_constraintStart_toStartOf="@+id/glLeft16"
-            app:layout_constraintTop_toBottomOf="@id/tvTrackDurationText" />
+            android:text="@string/Album"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft16"
+            app:layout_constraintTop_toBottomOf="@id/tViewTrackDurationText" />
 
         <TextView
-            android:id="@+id/tvTrackYearText"
-            style="@style/p4"
+            android:id="@+id/tViewTrackYearText"
+            style="@style/pstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/primaryMarginPaddingSize"
-            android:text="Год"
-            app:layout_constraintStart_toStartOf="@+id/glLeft16"
-            app:layout_constraintTop_toBottomOf="@id/tvTrackAlbumText" />
+            android:text="@string/Year"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft16"
+            app:layout_constraintTop_toBottomOf="@id/tViewTrackAlbumText" />
 
         <TextView
-            android:id="@+id/tvTrackGenreText"
-            style="@style/p4"
+            android:id="@+id/tViewTrackGenreText"
+            style="@style/pstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/primaryMarginPaddingSize"
-            android:text="Жанр"
-            app:layout_constraintStart_toStartOf="@+id/glLeft16"
-            app:layout_constraintTop_toBottomOf="@id/tvTrackYearText" />
+            android:text="@string/Genre"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft16"
+            app:layout_constraintTop_toBottomOf="@id/tViewTrackYearText" />
 
         <TextView
-            android:id="@+id/tvTrackCountryText"
-            style="@style/p4"
+            android:id="@+id/tViewTrackCountryText"
+            style="@style/pstyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/primaryMarginPaddingSize"
-            android:text="Страна"
-            app:layout_constraintStart_toStartOf="@+id/glLeft16"
-            app:layout_constraintTop_toBottomOf="@id/tvTrackGenreText" />
+            android:text="@string/country"
+            app:layout_constraintStart_toStartOf="@+id/guideLineLeft16"
+            app:layout_constraintTop_toBottomOf="@id/tViewTrackGenreText" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/baTrackInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="tvTrackDurationText, tvTrackAlbumText, tvTrackYearText, tvTrackGenreText, tvTrackCountryText" />
+            app:constraint_referenced_ids="tViewTrackDurationText, tViewTrackAlbumText, tViewTrackYearText, tViewTrackGenreText, tViewTrackCountryText" />
 
         <TextView
-            android:id="@+id/tvTrackDurationValue"
-            style="@style/p4.theme"
+            android:id="@+id/tViewTrackDurationValue"
+            style="@style/tvPlayerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/primaryMarginPaddingSize"
             android:singleLine="true"
-            android:text="2:55"
+            tool:text="2:55"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/glRight16"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight16"
             app:layout_constraintStart_toStartOf="@id/baTrackInfo"
-            app:layout_constraintTop_toTopOf="@+id/tvTrackDurationText" />
+            app:layout_constraintTop_toTopOf="@+id/tViewTrackDurationText" />
 
         <TextView
-            android:id="@+id/tvTrackAlbumValue"
-            style="@style/p4.theme"
+            android:id="@+id/tViewTrackAlbumValue"
+            style="@style/tvPlayerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/primaryMarginPaddingSize"
             android:singleLine="true"
-            android:text="Yesterday (Remastered 2009)"
+            tool:text="Yesterday (Remastered 2009)"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/glRight16"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight16"
             app:layout_constraintStart_toStartOf="@id/baTrackInfo"
-            app:layout_constraintTop_toTopOf="@+id/tvTrackAlbumText" />
+            app:layout_constraintTop_toTopOf="@+id/tViewTrackAlbumText" />
 
         <TextView
-            android:id="@+id/tvTrackYearValue"
-            style="@style/p4.theme"
+            android:id="@+id/tViewTrackYearValue"
+            style="@style/tvPlayerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/primaryMarginPaddingSize"
-            android:text="1965"
+            tool:text="1965"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/glRight16"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight16"
             app:layout_constraintStart_toStartOf="@id/baTrackInfo"
-            app:layout_constraintTop_toTopOf="@+id/tvTrackYearText" />
+            app:layout_constraintTop_toTopOf="@+id/tViewTrackYearText" />
 
         <TextView
-            android:id="@+id/tvTrackGenreValue"
-            style="@style/p4.theme"
+            android:id="@+id/tViewTrackGenreValue"
+            style="@style/tvPlayerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/primaryMarginPaddingSize"
-            android:text="Rock"
+            tool:text="Rock"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/glRight16"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight16"
             app:layout_constraintStart_toStartOf="@id/baTrackInfo"
-            app:layout_constraintTop_toTopOf="@+id/tvTrackGenreText" />
+            app:layout_constraintTop_toTopOf="@+id/tViewTrackGenreText" />
 
         <TextView
-            android:id="@+id/tvTrackCountryValue"
-            style="@style/p4.theme"
+            android:id="@+id/tViewTrackCountryValue"
+            style="@style/tvPlayerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/primaryMarginPaddingSize"
             android:singleLine="true"
-            android:text="Great Britain"
+            tool:text="Great Britain"
             android:textAlignment="textEnd"
-            app:layout_constraintEnd_toStartOf="@+id/glRight16"
+            app:layout_constraintEnd_toStartOf="@+id/guideLineRight16"
             app:layout_constraintStart_toStartOf="@id/baTrackInfo"
-            app:layout_constraintTop_toTopOf="@+id/tvTrackCountryText" />
+            app:layout_constraintTop_toTopOf="@+id/tViewTrackCountryText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

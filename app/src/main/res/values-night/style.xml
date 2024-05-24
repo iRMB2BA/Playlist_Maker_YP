@@ -60,7 +60,7 @@
         <item name="android:checked">true</item>
     </style>
 
-    <style name="h3theme">
+    <style name="htheme">
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -68,7 +68,7 @@
         <item name="tint">@color/white</item>
     </style>
 
-    <style name="p4.theme">
+    <style name="tvPlayerStyle">
         <item name="android:textColor">@color/white</item>
     </style>
 
