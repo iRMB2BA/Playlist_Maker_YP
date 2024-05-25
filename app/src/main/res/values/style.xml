@@ -102,10 +102,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/grayDark</item>
+        <item name="android:textFontWeight">400</item>
     </style>
 
     <style name="tvPlayerStyle">
         <item name="android:textColor">@color/color_placeholder</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
     </style>
 
 </resources>

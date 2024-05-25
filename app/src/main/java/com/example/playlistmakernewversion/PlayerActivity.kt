@@ -15,15 +15,17 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private val gson = Gson()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        val track = gson.fromJson(intent.getStringExtra("track"), Track::class.java)
+        val track = gson.fromJson(intent.getStringExtra(KEY_TRACK_INTENT), Track::class.java)
+        val durationFormat = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
-        Glide.with(applicationContext)
+            Glide.with(applicationContext)
             .load(track.coverUrl.replaceAfterLast('/', "512x512bb.jpg"))
             .placeholder(R.drawable.placeholder)
             .centerCrop()
@@ -35,10 +37,9 @@ class PlayerActivity : AppCompatActivity() {
 
         binding.tViewTrackTitle.text = track.trackName
         binding.tViewArtistName.text = track.artistName
-        binding.tViewDuration.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
-        binding.tViewTrackDurationValue.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+        binding.tViewDuration.text = durationFormat
+        binding.tViewTrackDurationValue.text = durationFormat
+
 
         setTrackInfo(
             track.collectionName,
@@ -50,8 +51,10 @@ class PlayerActivity : AppCompatActivity() {
             binding.tViewTrackGenreText,
             binding.tViewTrackGenreValue
         )
+
+        val releaseDate = if (track.releaseDate.isBlank()) "" else track.releaseDate.substring(0, 4)
         setTrackInfo(
-            track.releaseDate.substring(0, 4),
+            releaseDate,
             binding.tViewTrackYearText,
             binding.tViewTrackYearValue
         )

@@ -25,6 +25,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
+const val KEY_TRACK_INTENT = "track"
 
 class SearchActivity : AppCompatActivity() {
 
@@ -227,6 +228,7 @@ class SearchActivity : AppCompatActivity() {
         tracksAdapter.notifyDataSetChanged()
     }
 
+
     private fun search(inputText: String) {
         if (inputText.isNotEmpty()) {
             placeHolderNothingFound.visibility = View.GONE
@@ -262,10 +264,11 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+
     fun showTrack(track: Track) {
         startActivity(
             Intent(this, PlayerActivity::class.java).putExtra(
-                "track",
+                KEY_TRACK_INTENT,
                 Gson().toJson(track)
             )
         )
