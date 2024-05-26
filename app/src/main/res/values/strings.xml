@@ -24,4 +24,9 @@
     <string name="button_placeholderErrorNetwork">Обновить</string>
     <string name="titleText_historySearch">Вы искали</string>
     <string name="ButtonClearHistory_text">Очистить историю</string>
+    <string name="Duration">Длительность</string>
+    <string name="Album">Альбом</string>
+    <string name="Year">Год</string>
+    <string name="Genre">Жанр</string>
+    <string name="country">Страна</string>
 </resources>

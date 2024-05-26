@@ -18,10 +18,10 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val artistName: TextView = itemView.findViewById(R.id.artistNameView)
     private val trackTime: TextView = itemView.findViewById(R.id.trackTimeView)
 
-    fun bind(model: Track, listener: TrackAdapter.Listener) {
+    fun bind(model: Track) {
 
         Glide.with(itemView)
-            .load(model.artworkUrl100)
+            .load(model.coverUrl)
             .placeholder(R.drawable.placeholder)
             .centerCrop()
             .transform(RoundedCorners(4))
@@ -30,9 +30,5 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         trackName.text = model.trackName
         artistName.text = model.artistName
         trackTime.text = dateFormat.format(model.trackTimeMillis)
-
-        itemView.setOnClickListener {
-            listener.onClick(model)
-        }
     }
 }

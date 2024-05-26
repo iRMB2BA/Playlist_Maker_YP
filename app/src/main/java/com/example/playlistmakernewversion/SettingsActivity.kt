@@ -12,7 +12,6 @@ const val KEY_PREF = "KEY_PREFERENCES"
 const val PLAYLIST_PREF = "DARK_MODE_PREF"
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var switcher: SwitchCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -21,12 +20,8 @@ class SettingsActivity : AppCompatActivity() {
         val buttonSharing = findViewById<TextView>(R.id.sharing_textView)
         val buttonAgreement = findViewById<TextView>(R.id.agreement_textView)
         val buttonSendHelp = findViewById<TextView>(R.id.sendHelp_textView)
-
+        val switcher = findViewById<SwitchCompat?>(R.id.themeSwitch)
         val sharedPreferences = getSharedPreferences(PLAYLIST_PREF, MODE_PRIVATE)
-
-        switcher = findViewById<SwitchCompat?>(R.id.themeSwitch).apply {
-            isChecked = sharedPreferences.getBoolean(KEY_PREF, false)
-        }
 
         buttonBack.setOnClickListener {
             finish()
@@ -58,9 +53,9 @@ class SettingsActivity : AppCompatActivity() {
 
         switcher.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
-            sharedPreferences.edit()
-                .putBoolean(KEY_PREF, checked)
-                .apply()
+            sharedPreferences.edit().putBoolean(KEY_PREF, checked).apply()
+            
+
         }
 
     }

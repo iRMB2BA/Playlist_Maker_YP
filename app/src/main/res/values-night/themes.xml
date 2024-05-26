@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">#3772E7</item>
+        <item name="colorPrimary">#1A1B22</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
@@ -10,7 +10,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MaterialComponents.DayNight.NoActionBar"
         parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#3772E7</item>
+        <item name="colorPrimary">#1A1B22</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
