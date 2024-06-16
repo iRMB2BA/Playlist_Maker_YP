@@ -29,4 +29,5 @@
     <string name="Year">Год</string>
     <string name="Genre">Жанр</string>
     <string name="country">Страна</string>
+    <string name="defaultDuration">00:00</string>
 </resources>
