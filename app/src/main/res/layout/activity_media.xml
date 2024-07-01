@@ -4,6 +4,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MediaActivity"
+    tools:context=".ui.media.MediaActivity"
     android:background="@color/color_background">
 </androidx.constraintlayout.widget.ConstraintLayout>
