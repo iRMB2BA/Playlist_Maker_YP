@@ -1,13 +1,13 @@
-package com.example.playlistmakernewversion
+package com.example.playlistmakernewversion.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class Track(
+data class TrackDTO(
     val trackId: String,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Long,
-    @SerializedName("artworkUrl100") val coverUrl: String,
+    val coverUrl: String,
     val collectionName: String,
     val releaseDate: String,
     val primaryGenreName: String,
