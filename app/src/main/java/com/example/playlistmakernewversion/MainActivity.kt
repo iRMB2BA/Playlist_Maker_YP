@@ -1,13 +1,9 @@
-package com.example.playlistmakernewversion.ui.main
+package com.example.playlistmakernewversion
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmakernewversion.ui.media.MediaActivity
-import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.ui.search.SearchActivity
-import com.example.playlistmakernewversion.ui.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
 
