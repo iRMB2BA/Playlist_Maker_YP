@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.ui.settings
+package com.example.playlistmakernewversion
 
 import android.content.Intent
 import android.net.Uri
@@ -7,8 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import com.example.playlistmakernewversion.ui.App
-import com.example.playlistmakernewversion.R
 
 const val KEY_PREF = "KEY_PREFERENCES"
 const val PLAYLIST_PREF = "DARK_MODE_PREF"

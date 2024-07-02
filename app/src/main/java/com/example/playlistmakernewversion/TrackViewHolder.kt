@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.ui.search
+package com.example.playlistmakernewversion
 
 import android.icu.text.SimpleDateFormat
 import android.view.View
@@ -7,8 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.domain.model.Track
 import java.util.Locale
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
