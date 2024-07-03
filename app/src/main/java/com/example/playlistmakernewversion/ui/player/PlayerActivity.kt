@@ -47,13 +47,8 @@ class PlayerActivity : AppCompatActivity() {
         }
 
 
-        interactor.preparePlayer(track,
-            object : OnPlayerStateChangeListener {
-                override fun onChange(state: String) {
-                    playerState = state
-                }
-            }
-        )
+        interactor.preparePlayer(track
+        ) { state -> playerState = state }
 
         Glide.with(applicationContext)
             .load(track.coverUrl.replaceAfterLast('/', "512x512bb.jpg"))

@@ -11,6 +11,8 @@ import java.util.Locale
 
 class PlayerRepositoryImpl : PlayerRepository {
 
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
     private val mediaPlayer = MediaPlayer()
     private lateinit var listener: OnPlayerStateChangeListener
 
@@ -38,10 +40,7 @@ class PlayerRepositoryImpl : PlayerRepository {
     }
 
     override fun getCurrentPosition(): String {
-        return SimpleDateFormat(
-            "mm:ss",
-            Locale.getDefault()
-        ).format(mediaPlayer.currentPosition)
+        return dateFormat.format(mediaPlayer.currentPosition)
     }
 
     override fun release() {
