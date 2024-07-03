@@ -1,35 +1,37 @@
 package com.example.playlistmakernewversion.domain.impl
 
-import com.example.playlistmakernewversion.domain.OnPlayerStateChangeListener
-import com.example.playlistmakernewversion.domain.model.Track
+import com.example.playlistmakernewversion.domain.api.PlayerInteractor
+import com.example.playlistmakernewversion.domain.models.Track
 import com.example.playlistmakernewversion.domain.repository.PlayerRepository
-import com.example.playlistmakernewversion.domain.use_case.PlayerInteractor
 
-class PlayerInteractorImpl(
-    private val playerRepository: PlayerRepository
-) : PlayerInteractor {
+class PlayerInteractorImpl(private val repository: PlayerRepository) : PlayerInteractor {
+
+    override fun playbackControl() {
+        repository.playbackControl()
+    }
 
     override fun startPlayer() {
-        playerRepository.startPlayer()
+        repository.startPlayer()
     }
 
     override fun pausePlayer() {
-        playerRepository.pausePlayer()
+        repository.pausePlayer()
     }
 
-    override fun preparePlayer(
-        track: Track,
-        listener: OnPlayerStateChangeListener
-    ) {
-        playerRepository.preparePlayer(track, listener)
+    override fun preparePlayer(trackUrl: String) {
+        repository.preparePlayer(trackUrl)
     }
 
-    override fun getCurrentPosition(): String {
-        return playerRepository.getCurrentPosition()
+    override fun releasePlayer() {
+        repository.releasePlayer()
     }
 
-    override fun release() {
-        playerRepository.release()
-    }
+//    fun getTime() {
+//        val time = repository.getTime()
+//
+//        trackTimeListener.onTimeChanged(time)
+//
+//    }
+
 
 }

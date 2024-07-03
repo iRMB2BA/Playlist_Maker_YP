@@ -19,12 +19,11 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmakernewversion.data.network.ItunesAPI
 import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.domain.model.Track
 import com.example.playlistmakernewversion.data.dto.TracksResponse
+import com.example.playlistmakernewversion.data.network.ItunesAPI
+import com.example.playlistmakernewversion.domain.models.Track
 import com.example.playlistmakernewversion.ui.player.PlayerActivity
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -279,7 +278,7 @@ class SearchActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, PlayerActivity::class.java).putExtra(
                     KEY_TRACK_INTENT,
-                    Gson().toJson(track)
+                    track
                 )
             )
         }

@@ -1,54 +1,56 @@
 package com.example.playlistmakernewversion.ui.player
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import com.example.playlistmakernewversion.Creator.Creator
 import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.creator.Creator
 import com.example.playlistmakernewversion.databinding.ActivityPlayerBinding
-import com.example.playlistmakernewversion.domain.OnPlayerStateChangeListener
-import com.example.playlistmakernewversion.domain.model.Track
+import com.example.playlistmakernewversion.domain.api.TrackStateListener
+import com.example.playlistmakernewversion.domain.api.TrackTimeListener
+import com.example.playlistmakernewversion.domain.models.Track
+import com.example.playlistmakernewversion.ui.StatePlayer
 import com.example.playlistmakernewversion.ui.search.KEY_TRACK_INTENT
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class PlayerActivity : AppCompatActivity() {
+class PlayerActivity : AppCompatActivity(), TrackTimeListener, TrackStateListener {
 
-    private var playerState = "STATE_DEFAULT"
-    private val interactor = Creator.providePlayerInteractor()
-    private val trackTransfer = Creator.provideTrackTransfer()
-
+    private val playerInteractor = Creator.providePlayerInteractor(this, this)
+    val handler = Handler(Looper.getMainLooper())
+    var state = StatePlayer.STATE_DEFAULT.state
     private lateinit var binding: ActivityPlayerBinding
     private lateinit var track: Track
-    private lateinit var handler: Handler
+    private var btEnabled = false
 
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
 
-        handler = Handler(Looper.getMainLooper())
-
         binding.toolBar.setOnClickListener {
             finish()
         }
 
-        track = trackTransfer.getTrack(intent.getStringExtra(KEY_TRACK_INTENT).toString())
+        track = intent.getParcelableExtra(KEY_TRACK_INTENT, Track::class.java)!!
 
         binding.btnPlayStop.setOnClickListener {
-            playbackControl()
+            playerInteractor.playbackControl()
+            checkState(state)
         }
 
+        playerInteractor.preparePlayer(track.previewUrl)
 
-        interactor.preparePlayer(track
-        ) { state -> playerState = state }
+        listenState()
 
         Glide.with(applicationContext)
             .load(track.coverUrl.replaceAfterLast('/', "512x512bb.jpg"))
@@ -88,79 +90,6 @@ class PlayerActivity : AppCompatActivity() {
         )
     }
 
-    private fun playbackControl() {
-        when (playerState) {
-            STATE_PLAYING -> {
-                pausePlayer()
-            }
-
-            STATE_PREPARED, STATE_PAUSED -> {
-                startPlayer()
-            }
-
-            STATE_COMPLETE -> {
-                binding.btnPlayStop.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        this,
-                        R.drawable.ic_play
-                    )
-                )
-                playerState = STATE_PREPARED
-                showTrackPlayedTime()
-            }
-        }
-    }
-
-    private fun showTrackPlayedTime() {
-        when (playerState) {
-            STATE_PLAYING -> {
-                handler.postDelayed(
-                    object : Runnable {
-                        override fun run() {
-                            binding.tViewDuration.text = interactor.getCurrentPosition()
-                            if (playerState == STATE_PLAYING) {
-                                handler.postDelayed(this, PLAY_DEBOUNCE_DELAY)
-                            }
-                        }
-                    }, PLAY_DEBOUNCE_DELAY
-                )
-            }
-
-            STATE_PAUSED -> {
-                handler.removeCallbacksAndMessages(null)
-            }
-
-            STATE_PREPARED -> {
-                handler.removeCallbacksAndMessages(null)
-                binding.tViewDuration.setText(R.string.defaultDuration)
-            }
-        }
-    }
-
-    private fun startPlayer() {
-        interactor.startPlayer()
-        binding.btnPlayStop.setImageDrawable(
-            AppCompatResources.getDrawable(
-                this,
-                R.drawable.ic_pause
-            )
-        )
-        playerState = STATE_PLAYING
-        showTrackPlayedTime()
-    }
-
-    private fun pausePlayer() {
-        interactor.pausePlayer()
-        binding.btnPlayStop.setImageDrawable(
-            AppCompatResources.getDrawable(
-                this,
-                R.drawable.ic_play
-            )
-        )
-        playerState = STATE_PAUSED
-        showTrackPlayedTime()
-    }
-
     private fun setTrackInfo(str: String, text: TextView, value: TextView) {
 
         if (str.isNotEmpty()) {
@@ -173,20 +102,55 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        pausePlayer()
+        playerInteractor.pausePlayer()
+        binding.btnPlayStop.setImageResource(R.drawable.ic_play)
+        btEnabled = false
     }
 
     override fun onDestroy() {
-        handler.removeCallbacksAndMessages(null)
-        interactor.release()
         super.onDestroy()
+        playerInteractor.releasePlayer()
+    }
+
+
+    override fun getState(state: Int) {
+        this.state = state
+    }
+
+    override fun onTimeChanged(time: String) {
+        binding.tViewDuration.text = time
+    }
+
+    fun checkState(state: Int) {
+        when (state) {
+            StatePlayer.STATE_PLAYING.state -> binding.btnPlayStop.setImageResource(R.drawable.ic_pause)
+            StatePlayer.STATE_PAUSED.state, StatePlayer.STATE_DEFAULT.state -> binding.btnPlayStop.setImageResource(
+                R.drawable.ic_play
+            )
+
+            StatePlayer.STATE_PREPARED.state -> {
+                binding.btnPlayStop.setImageResource(R.drawable.ic_play)
+                binding.tViewDuration.setText(R.string.defaultDuration)
+            }
+        }
+    }
+
+    private fun listenState() {
+        handler.postDelayed(
+            object : Runnable {
+                override fun run() {
+                    checkState(state)
+                    handler.postDelayed(
+                        this,
+                        PLAY_DEBOUNCE_DELAY
+                    )
+                }
+            },
+            PLAY_DEBOUNCE_DELAY
+        )
     }
 
     companion object {
-        const val STATE_PREPARED = "STATE_PREPARED"
-        const val STATE_PLAYING = "STATE_PLAYING"
-        const val STATE_PAUSED = "STATE_PAUSED"
-        const val STATE_COMPLETE = "STATE_COMPLETE"
         const val PLAY_DEBOUNCE_DELAY = 300L
     }
 }

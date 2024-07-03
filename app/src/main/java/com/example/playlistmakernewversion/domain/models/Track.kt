@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.domain.model
+package com.example.playlistmakernewversion.domain.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
