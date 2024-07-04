@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion
+package com.example.playlistmakernewversion.ui.search
 
 import android.app.Activity
 import android.content.Context
@@ -19,7 +19,11 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
+import com.example.playlistmakernewversion.R
+import com.example.playlistmakernewversion.data.dto.TracksResponse
+import com.example.playlistmakernewversion.data.network.TrackAPI
+import com.example.playlistmakernewversion.domain.models.Track
+import com.example.playlistmakernewversion.ui.player.PlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val itunesService = retrofit.create(ItunesAPI::class.java)
+    private val itunesService = retrofit.create(TrackAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -274,7 +278,7 @@ class SearchActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, PlayerActivity::class.java).putExtra(
                     KEY_TRACK_INTENT,
-                    Gson().toJson(track)
+                    track
                 )
             )
         }
