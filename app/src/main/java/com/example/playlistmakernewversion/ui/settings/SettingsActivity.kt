@@ -9,34 +9,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.example.playlistmakernewversion.ui.App
 import com.example.playlistmakernewversion.R
+import com.example.playlistmakernewversion.databinding.ActivitySettingsBinding
 
 const val KEY_PREF = "KEY_PREFERENCES"
 const val PLAYLIST_PREF = "DARK_MODE_PREF"
+
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(this.layoutInflater)
+        setContentView(binding.root)
 
-        val buttonBack = findViewById<ImageView>(R.id.button_arrowBack)
-        val buttonSharing = findViewById<TextView>(R.id.sharing_textView)
-        val buttonAgreement = findViewById<TextView>(R.id.agreement_textView)
-        val buttonSendHelp = findViewById<TextView>(R.id.sendHelp_textView)
-        val switcher = findViewById<SwitchCompat?>(R.id.themeSwitch)
         val sharedPreferences = getSharedPreferences(PLAYLIST_PREF, MODE_PRIVATE)
 
-        buttonBack.setOnClickListener {
+        binding.buttonArrowBack.setOnClickListener {
             finish()
         }
 
-        buttonSharing.setOnClickListener {
+        binding.sharingTextView.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sharingMessage))
             startActivity(Intent.createChooser(shareIntent, null))
         }
 
-        buttonAgreement.setOnClickListener {
+        binding.agreementTextView.setOnClickListener {
             val intentSendUrl = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse(getString(R.string.agreementUrl))
@@ -44,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(intentSendUrl)
         }
 
-        buttonSendHelp.setOnClickListener {
+        binding.sendHelpTextView.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
             shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("irombaba@gmail.com"))
@@ -53,10 +52,10 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
-        switcher.setOnCheckedChangeListener { _, checked ->
+        binding.themeSwitch.setOnCheckedChangeListener { _, checked ->
             (applicationContext as App).switchTheme(checked)
             sharedPreferences.edit().putBoolean(KEY_PREF, checked).apply()
-            
+
 
         }
 

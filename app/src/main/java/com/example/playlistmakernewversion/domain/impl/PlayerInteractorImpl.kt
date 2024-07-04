@@ -26,12 +26,5 @@ class PlayerInteractorImpl(private val repository: PlayerRepository) : PlayerInt
         repository.releasePlayer()
     }
 
-//    fun getTime() {
-//        val time = repository.getTime()
-//
-//        trackTimeListener.onTimeChanged(time)
-//
-//    }
-
 
 }

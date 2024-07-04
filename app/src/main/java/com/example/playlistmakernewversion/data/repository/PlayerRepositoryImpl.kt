@@ -12,20 +12,16 @@ import java.util.Locale
 class PlayerRepositoryImpl(
     private var trackTimeListener: TrackTimeListener,
     private val trackStateListener: TrackStateListener
-) :
-    PlayerRepository {
+) : PlayerRepository {
 
+    val mediaPlayer = MediaPlayer()
     val handler = Handler(Looper.getMainLooper())
-
-    var checkEnded: Boolean = false
-    var checkReady = false
     private var time = DEFAULT_TIME_TRACK
+    private var playerState = State.STATE_DEFAULT.state
+
     override fun getTime(): String {
         return time
     }
-
-    val mediaPlayer = MediaPlayer()
-    private var playerState = State.STATE_DEFAULT.state
 
     override fun preparePlayer(trackUrl: String) {
         mediaPlayer.setDataSource(trackUrl)
@@ -33,13 +29,11 @@ class PlayerRepositoryImpl(
         mediaPlayer.setOnPreparedListener {
             playerState = State.STATE_PREPARED.state
             trackStateListener.getState(playerState)
-            checkReady = true
         }
         mediaPlayer.setOnCompletionListener {
             playerState = State.STATE_PREPARED.state
             trackStateListener.getState(playerState)
             time = DEFAULT_TIME_TRACK
-            checkEnded = true
         }
     }
 
@@ -49,17 +43,9 @@ class PlayerRepositoryImpl(
 
     override fun playbackControl() {
         when (playerState) {
-            State.STATE_PLAYING.state -> {
-                pausePlayer()
-            }
-
-            State.STATE_PREPARED.state, State.STATE_PAUSED.state -> {
-                startPlayer()
-            }
-
-            else -> {
-                State.STATE_DEFAULT
-            }
+            State.STATE_PLAYING.state -> pausePlayer()
+            State.STATE_PREPARED.state, State.STATE_PAUSED.state -> startPlayer()
+            else -> State.STATE_DEFAULT
         }
     }
 
@@ -90,17 +76,17 @@ class PlayerRepositoryImpl(
                         trackTimeListener.onTimeChanged(this@PlayerRepositoryImpl.time)
                         handler.postDelayed(
                             this,
-                            REFRESH_LIST_DELAY_MILLIS,
+                            PLAY_DEBOUNCE_DELAY,
                         )
                     }
                 }
             },
-            REFRESH_LIST_DELAY_MILLIS
+            PLAY_DEBOUNCE_DELAY
         )
     }
 
     companion object {
-        private const val REFRESH_LIST_DELAY_MILLIS = 300L
+        private const val PLAY_DEBOUNCE_DELAY = 300L
         private const val DEFAULT_TIME_TRACK = "00:00"
     }
 
@@ -111,5 +97,4 @@ class PlayerRepositoryImpl(
         STATE_PLAYING(2),
         STATE_PAUSED(3),
     }
-
 }

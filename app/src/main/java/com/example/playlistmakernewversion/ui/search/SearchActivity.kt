@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmakernewversion.R
 import com.example.playlistmakernewversion.data.dto.TracksResponse
-import com.example.playlistmakernewversion.data.network.ItunesAPI
+import com.example.playlistmakernewversion.data.network.TrackAPI
 import com.example.playlistmakernewversion.domain.models.Track
 import com.example.playlistmakernewversion.ui.player.PlayerActivity
 import retrofit2.Call
@@ -64,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val itunesService = retrofit.create(ItunesAPI::class.java)
+    private val itunesService = retrofit.create(TrackAPI::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

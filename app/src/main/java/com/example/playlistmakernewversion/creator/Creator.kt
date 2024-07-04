@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.Creator
+package com.example.playlistmakernewversion.creator
 
 import com.example.playlistmakernewversion.data.repository.PlayerRepositoryImpl
 import com.example.playlistmakernewversion.domain.api.PlayerInteractor

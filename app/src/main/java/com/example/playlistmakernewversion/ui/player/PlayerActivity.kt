@@ -9,13 +9,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
-import com.example.playlistmakernewversion.Creator.Creator
 import com.example.playlistmakernewversion.R
+import com.example.playlistmakernewversion.creator.Creator
 import com.example.playlistmakernewversion.databinding.ActivityPlayerBinding
 import com.example.playlistmakernewversion.domain.api.TrackStateListener
 import com.example.playlistmakernewversion.domain.api.TrackTimeListener
 import com.example.playlistmakernewversion.domain.models.Track
-import com.example.playlistmakernewversion.ui.StatePlayer
 import com.example.playlistmakernewversion.ui.search.KEY_TRACK_INTENT
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -25,7 +24,7 @@ class PlayerActivity : AppCompatActivity(), TrackTimeListener, TrackStateListene
 
     private val playerInteractor = Creator.providePlayerInteractor(this, this)
     val handler = Handler(Looper.getMainLooper())
-    var state = StatePlayer.STATE_DEFAULT.state
+    var state = PlayerState.STATE_DEFAULT.state
     private lateinit var binding: ActivityPlayerBinding
     private lateinit var track: Track
     private var btEnabled = false
@@ -123,12 +122,12 @@ class PlayerActivity : AppCompatActivity(), TrackTimeListener, TrackStateListene
 
     fun checkState(state: Int) {
         when (state) {
-            StatePlayer.STATE_PLAYING.state -> binding.btnPlayStop.setImageResource(R.drawable.ic_pause)
-            StatePlayer.STATE_PAUSED.state, StatePlayer.STATE_DEFAULT.state -> binding.btnPlayStop.setImageResource(
+            PlayerState.STATE_PLAYING.state -> binding.btnPlayStop.setImageResource(R.drawable.ic_pause)
+            PlayerState.STATE_PAUSED.state, PlayerState.STATE_DEFAULT.state -> binding.btnPlayStop.setImageResource(
                 R.drawable.ic_play
             )
 
-            StatePlayer.STATE_PREPARED.state -> {
+            PlayerState.STATE_PREPARED.state -> {
                 binding.btnPlayStop.setImageResource(R.drawable.ic_play)
                 binding.tViewDuration.setText(R.string.defaultDuration)
             }

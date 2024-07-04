@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmakernewversion.ui.settings.KEY_PREF
 import com.example.playlistmakernewversion.ui.settings.PLAYLIST_PREF
 
-class App: Application() {
+class App : Application() {
     private var darkTheme = false
     override fun onCreate() {
         super.onCreate()
