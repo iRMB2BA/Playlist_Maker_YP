@@ -1,6 +1,6 @@
-package com.example.playlistmakernewversion.domain.repository
+package com.example.playlistmakernewversion.player.domain.repository
 
-import com.example.playlistmakernewversion.domain.models.Track
+import com.example.playlistmakernewversion.player.domain.PlayerState
 
 interface PlayerRepository {
 
@@ -14,4 +14,5 @@ interface PlayerRepository {
     fun updateTime(time : String)
     fun getTime() : String
 
+    fun getState() : PlayerState
 }

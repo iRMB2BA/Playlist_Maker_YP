@@ -1,6 +1,4 @@
-package com.example.playlistmakernewversion.data.dto
-
-import com.google.gson.annotations.SerializedName
+package com.example.playlistmakernewversion.search.data.dto
 
 data class TrackDTO(
     val trackId: String,

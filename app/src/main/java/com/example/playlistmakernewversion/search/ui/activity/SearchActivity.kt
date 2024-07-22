@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.search
+package com.example.playlistmakernewversion.search.ui.activity
 
 import android.app.Activity
 import android.content.Context
@@ -20,10 +20,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.data.dto.TracksResponse
-import com.example.playlistmakernewversion.data.network.TrackAPI
-import com.example.playlistmakernewversion.domain.models.Track
-import com.example.playlistmakernewversion.player.PlayerActivity
+import com.example.playlistmakernewversion.search.data.dto.TracksResponse
+import com.example.playlistmakernewversion.search.data.network.TrackAPI
+import com.example.playlistmakernewversion.player.domain.models.Track
+import com.example.playlistmakernewversion.player.ui.activity.PlayerActivity
+import com.example.playlistmakernewversion.search.ui.adapter.SEARCH_HISTORY_KEY
+import com.example.playlistmakernewversion.search.ui.adapter.SearchHistory
+import com.example.playlistmakernewversion.search.ui.adapter.TrackAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

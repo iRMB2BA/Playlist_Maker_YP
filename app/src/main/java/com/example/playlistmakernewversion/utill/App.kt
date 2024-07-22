@@ -2,8 +2,8 @@ package com.example.playlistmakernewversion.utill
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmakernewversion.settings.KEY_PREF
-import com.example.playlistmakernewversion.settings.PLAYLIST_PREF
+import com.example.playlistmakernewversion.settings.ui.activity.KEY_PREF
+import com.example.playlistmakernewversion.settings.ui.activity.PLAYLIST_PREF
 
 class App : Application() {
     private var darkTheme = false

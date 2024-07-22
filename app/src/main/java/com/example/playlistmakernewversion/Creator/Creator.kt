@@ -1,28 +1,48 @@
 package com.example.playlistmakernewversion.Creator
 
-import com.example.playlistmakernewversion.data.repository.PlayerRepositoryImpl
-import com.example.playlistmakernewversion.domain.api.PlayerInteractor
-import com.example.playlistmakernewversion.domain.api.TrackStateListener
-import com.example.playlistmakernewversion.domain.api.TrackTimeListener
-import com.example.playlistmakernewversion.domain.impl.PlayerInteractorImpl
-import com.example.playlistmakernewversion.domain.repository.PlayerRepository
+import android.content.Context
+import com.example.playlistmakernewversion.player.data.repository.PlayerRepositoryImpl
+import com.example.playlistmakernewversion.player.domain.api.PlayerInteractor
+import com.example.playlistmakernewversion.player.domain.api.TrackStateListener
+import com.example.playlistmakernewversion.player.domain.api.TrackTimeListener
+import com.example.playlistmakernewversion.player.domain.impl.PlayerInteractorImpl
+import com.example.playlistmakernewversion.player.domain.repository.PlayerRepository
 
 object Creator {
 
 
-    private fun getPlayerRepository(
-        trackTimeListener: TrackTimeListener,
-        stateListener: TrackStateListener
-    ): PlayerRepository {
+    private fun getPlayerRepository(trackTimeListener: TrackTimeListener, stateListener: TrackStateListener): PlayerRepository {
         return PlayerRepositoryImpl(trackTimeListener, stateListener)
     }
 
 
-    fun providePlayerInteractor(
-        trackTimeListener: TrackTimeListener,
-        stateListener: TrackStateListener
-    ): PlayerInteractor {
+    fun providePlayerInteractor(trackTimeListener: TrackTimeListener, stateListener: TrackStateListener): PlayerInteractor {
         return PlayerInteractorImpl(getPlayerRepository(trackTimeListener, stateListener))
+    }
+
+
+    private fun getTrackRepository(): TrackRepository {
+        return TrackRepositoryImpl(RetrofitNetworkClient())
+    }
+
+    fun provideTrackInteractor(): TrackInteractor {
+        return TrackInteraktorImpl(getTrackRepository())
+    }
+
+    private fun getSettingRepository(context: Context): SettingRepository {
+        return SettingRepositoryImpl(context, SharedPreferencesThemeSettings(context))
+    }
+
+    fun provideSettingInteractor(context: Context): SettingInteractor {
+        return SettingInteractorImpl(getSettingRepository(context))
+    }
+
+    private fun getHistoryRepository(context: Context) : SharedPreferensecHistory {
+        return SharedPreferencesHistoryImpl(context)
+    }
+
+    fun provideHistoryInteractor(context: Context) : TrackHistoryInteractor {
+        return TrackHistoryInteractorImpl(getHistoryRepository(context))
     }
 
 

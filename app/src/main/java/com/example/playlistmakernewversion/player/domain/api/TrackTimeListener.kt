@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.domain.api
+package com.example.playlistmakernewversion.player.domain.api
 
 interface TrackTimeListener {
 

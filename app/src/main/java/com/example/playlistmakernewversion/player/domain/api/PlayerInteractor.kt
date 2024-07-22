@@ -1,6 +1,4 @@
-package com.example.playlistmakernewversion.domain.api
-
-import com.example.playlistmakernewversion.domain.models.Track
+package com.example.playlistmakernewversion.player.domain.api
 
 interface PlayerInteractor {
 

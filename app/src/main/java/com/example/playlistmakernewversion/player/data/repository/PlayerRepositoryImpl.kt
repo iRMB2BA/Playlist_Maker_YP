@@ -1,11 +1,12 @@
-package com.example.playlistmakernewversion.data.repository
+package com.example.playlistmakernewversion.player.data.repository
 
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
-import com.example.playlistmakernewversion.domain.api.TrackStateListener
-import com.example.playlistmakernewversion.domain.api.TrackTimeListener
-import com.example.playlistmakernewversion.domain.repository.PlayerRepository
+import com.example.playlistmakernewversion.player.domain.PlayerState
+import com.example.playlistmakernewversion.player.domain.api.TrackStateListener
+import com.example.playlistmakernewversion.player.domain.api.TrackTimeListener
+import com.example.playlistmakernewversion.player.domain.repository.PlayerRepository
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -21,6 +22,10 @@ class PlayerRepositoryImpl(
 
     override fun getTime(): String {
         return time
+    }
+
+    override fun getState(): PlayerState {
+        TODO("Not yet implemented")
     }
 
     override fun preparePlayer(trackUrl: String) {
