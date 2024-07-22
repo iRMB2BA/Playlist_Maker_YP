@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.ui.player
+package com.example.playlistmakernewversion.player
 
 import android.os.Build
 import android.os.Bundle
@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.example.playlistmakernewversion.R
-import com.example.playlistmakernewversion.creator.Creator
+import com.example.playlistmakernewversion.Creator.Creator
 import com.example.playlistmakernewversion.databinding.ActivityPlayerBinding
 import com.example.playlistmakernewversion.domain.api.TrackStateListener
 import com.example.playlistmakernewversion.domain.api.TrackTimeListener
 import com.example.playlistmakernewversion.domain.models.Track
-import com.example.playlistmakernewversion.ui.search.KEY_TRACK_INTENT
+import com.example.playlistmakernewversion.search.KEY_TRACK_INTENT
 import java.text.SimpleDateFormat
 import java.util.Locale
 

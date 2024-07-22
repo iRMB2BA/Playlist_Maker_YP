@@ -1,4 +1,4 @@
-package com.example.playlistmakernewversion.ui.search
+package com.example.playlistmakernewversion.search
 
 import android.app.Activity
 import android.content.Context
@@ -23,7 +23,7 @@ import com.example.playlistmakernewversion.R
 import com.example.playlistmakernewversion.data.dto.TracksResponse
 import com.example.playlistmakernewversion.data.network.TrackAPI
 import com.example.playlistmakernewversion.domain.models.Track
-import com.example.playlistmakernewversion.ui.player.PlayerActivity
+import com.example.playlistmakernewversion.player.PlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
