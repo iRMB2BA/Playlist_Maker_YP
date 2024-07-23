@@ -38,6 +38,8 @@ object Creator {
         return SettingRepositoryImpl(context, SharedPreferencesThemeSettings(context))
     }
 
+
+
     fun provideSettingInteractor(context: Context): SettingInteractor {
         return SettingInteractorImpl(getSettingRepository(context))
     }
