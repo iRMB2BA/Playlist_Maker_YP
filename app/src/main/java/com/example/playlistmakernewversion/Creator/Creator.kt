@@ -7,6 +7,15 @@ import com.example.playlistmakernewversion.player.domain.api.TrackStateListener
 import com.example.playlistmakernewversion.player.domain.api.TrackTimeListener
 import com.example.playlistmakernewversion.player.domain.impl.PlayerInteractorImpl
 import com.example.playlistmakernewversion.player.domain.repository.PlayerRepository
+import com.example.playlistmakernewversion.search.data.SharedPreferencesHistoryImpl
+import com.example.playlistmakernewversion.search.data.dto.TrackRepositoryImpl
+import com.example.playlistmakernewversion.search.data.network.RetrofitNetworkClient
+import com.example.playlistmakernewversion.search.domain.api.SharedPreferensecHistory
+import com.example.playlistmakernewversion.search.domain.api.TrackHistoryInteractor
+import com.example.playlistmakernewversion.search.domain.api.TrackInteractor
+import com.example.playlistmakernewversion.search.domain.api.TrackRepository
+import com.example.playlistmakernewversion.search.domain.impl.TrackHistoryInteractorImpl
+import com.example.playlistmakernewversion.search.domain.impl.TrackInteraktorImpl
 import com.example.playlistmakernewversion.settings.data.SharedPreferencesThemeSettings
 import com.example.playlistmakernewversion.settings.data.repository.SettingRepositoryImpl
 import com.example.playlistmakernewversion.settings.domain.api.SettingInteractor
@@ -26,13 +35,13 @@ object Creator {
     }
 
 
-//    private fun getTrackRepository(): TrackRepository {
-//        return TrackRepositoryImpl(RetrofitNetworkClient())
-//    }
-//
-//    fun provideTrackInteractor(): TrackInteractor {
-//        return TrackInteraktorImpl(getTrackRepository())
-//    }
+    private fun getTrackRepository(): TrackRepository {
+        return TrackRepositoryImpl(RetrofitNetworkClient())
+    }
+
+    fun provideTrackInteractor(): TrackInteractor {
+        return TrackInteraktorImpl(getTrackRepository())
+    }
 
     private fun getSettingRepository(context: Context): SettingRepository {
         return SettingRepositoryImpl(context, SharedPreferencesThemeSettings(context))
@@ -44,13 +53,13 @@ object Creator {
         return SettingInteractorImpl(getSettingRepository(context))
     }
 
-//    private fun getHistoryRepository(context: Context) : SharedPreferensecHistory {
-//        return SharedPreferencesHistoryImpl(context)
-//    }
-//
-//    fun provideHistoryInteractor(context: Context) : TrackHistoryInteractor {
-//        return TrackHistoryInteractorImpl(getHistoryRepository(context))
-//    }
+    private fun getHistoryRepository(context: Context) : SharedPreferensecHistory {
+        return SharedPreferencesHistoryImpl(context)
+    }
+
+    fun provideHistoryInteractor(context: Context) : TrackHistoryInteractor {
+        return TrackHistoryInteractorImpl(getHistoryRepository(context))
+    }
 
 
 }
