@@ -1,61 +1,48 @@
 package com.example.playlistmakernewversion.settings.ui.activity
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmakernewversion.utill.App
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmakernewversion.R
 import com.example.playlistmakernewversion.databinding.ActivitySettingsBinding
+import com.example.playlistmakernewversion.settings.ui.view_model.SettingViewModel
 
-const val KEY_PREF = "KEY_PREFERENCES"
-const val PLAYLIST_PREF = "DARK_MODE_PREF"
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
+    private lateinit var viewModel: SettingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
 
-        val sharedPreferences = getSharedPreferences(PLAYLIST_PREF, MODE_PRIVATE)
+        viewModel = ViewModelProvider(
+            this,
+            SettingViewModel.getViewModelFactory()
+        )[SettingViewModel::class.java]
 
         binding.buttonArrowBack.setOnClickListener {
             finish()
         }
 
         binding.sharingTextView.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sharingMessage))
-            startActivity(Intent.createChooser(shareIntent, null))
+            val link = getString(R.string.sharingMessage)
+            viewModel.shareApp(link)
         }
 
         binding.agreementTextView.setOnClickListener {
-            val intentSendUrl = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.agreementUrl))
-            )
-            startActivity(intentSendUrl)
+            viewModel.termOfUse()
         }
 
         binding.sendHelpTextView.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SENDTO)
-            shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("irombaba@gmail.com"))
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.sendHelpThemeMessage))
-            shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.sendHelpMessage))
-            startActivity(shareIntent)
+            viewModel.sentSupport()
         }
 
-        binding.themeSwitch.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as App).switchTheme(checked)
-            sharedPreferences.edit().putBoolean(KEY_PREF, checked).apply()
-
-
+        binding.themeSwitch.isChecked = viewModel.default()
+        binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.switchTheme(isChecked)
         }
-
     }
 
 }

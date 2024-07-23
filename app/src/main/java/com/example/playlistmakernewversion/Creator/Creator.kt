@@ -7,6 +7,11 @@ import com.example.playlistmakernewversion.player.domain.api.TrackStateListener
 import com.example.playlistmakernewversion.player.domain.api.TrackTimeListener
 import com.example.playlistmakernewversion.player.domain.impl.PlayerInteractorImpl
 import com.example.playlistmakernewversion.player.domain.repository.PlayerRepository
+import com.example.playlistmakernewversion.settings.data.SharedPreferencesThemeSettings
+import com.example.playlistmakernewversion.settings.data.repository.SettingRepositoryImpl
+import com.example.playlistmakernewversion.settings.domain.api.SettingInteractor
+import com.example.playlistmakernewversion.settings.domain.api.SettingRepository
+import com.example.playlistmakernewversion.settings.domain.impl.SettingInteractorImpl
 
 object Creator {
 
@@ -21,13 +26,13 @@ object Creator {
     }
 
 
-    private fun getTrackRepository(): TrackRepository {
-        return TrackRepositoryImpl(RetrofitNetworkClient())
-    }
-
-    fun provideTrackInteractor(): TrackInteractor {
-        return TrackInteraktorImpl(getTrackRepository())
-    }
+//    private fun getTrackRepository(): TrackRepository {
+//        return TrackRepositoryImpl(RetrofitNetworkClient())
+//    }
+//
+//    fun provideTrackInteractor(): TrackInteractor {
+//        return TrackInteraktorImpl(getTrackRepository())
+//    }
 
     private fun getSettingRepository(context: Context): SettingRepository {
         return SettingRepositoryImpl(context, SharedPreferencesThemeSettings(context))
@@ -37,13 +42,13 @@ object Creator {
         return SettingInteractorImpl(getSettingRepository(context))
     }
 
-    private fun getHistoryRepository(context: Context) : SharedPreferensecHistory {
-        return SharedPreferencesHistoryImpl(context)
-    }
-
-    fun provideHistoryInteractor(context: Context) : TrackHistoryInteractor {
-        return TrackHistoryInteractorImpl(getHistoryRepository(context))
-    }
+//    private fun getHistoryRepository(context: Context) : SharedPreferensecHistory {
+//        return SharedPreferencesHistoryImpl(context)
+//    }
+//
+//    fun provideHistoryInteractor(context: Context) : TrackHistoryInteractor {
+//        return TrackHistoryInteractorImpl(getHistoryRepository(context))
+//    }
 
 
 }
